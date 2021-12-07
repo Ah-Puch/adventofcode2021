@@ -16,17 +16,6 @@ func get_initial_state() {
     }
 }
 
-func define_cost_matrix() {
-
-    travel_ccst[0]=0
-    for (c_i = 1; c_i <=  max_crab_position(); c_i++) {
-        travel_ccst[c_i]=travel_ccst[c_i-1]+c_i
-	if (DEBUG) {
-	    printf "Travel cost pos %5d = %10d\n",c_i,travel_ccst[c_i]
-	}
-    }
-}
-
 func print_state_of_crab() {
     for (p_i = 1; p_i <= length(crab); p_i++) {
 	printf "%d ",crab[p_i]
@@ -51,13 +40,12 @@ func max_crab_position() {
 }
 
 func calc_min_fuel_cost() {
-    define_cost_matrix()
     min_cost=9999999999
 
     for (i = min_crab_position(); i <= max_crab_position(); i++) {
 	cost=0
 	for (j = 1; j <= length(crab); j++) {
-	    cost+=travel_ccst[abs(crab[j]-i)]
+	    cost+=(abs(crab[j]-i))*(abs(crab[j]-i)+1)/2
 	}
 	if (cost<min_cost) min_cost=cost
 
